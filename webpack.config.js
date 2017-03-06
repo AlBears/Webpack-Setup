@@ -17,8 +17,18 @@ var plugins = PRODUCTION ?
   [ new webpack.HotModuleReplacementPlugin() ];
 
 module.exports = {
+  //devtool for debugging
+  devtool: 'source-map',
   entry,
   plugins,
+  //load es 6
+  module: {
+    loaders: [{
+      test:     /\.js$/,
+      loaders:  ['babel-loader'],
+      exclude:  '/node_modules/'
+    }]
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/dist/',
