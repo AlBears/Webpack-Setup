@@ -17,17 +17,23 @@ var plugins = PRODUCTION ?
   [ new webpack.HotModuleReplacementPlugin() ];
 
 module.exports = {
-  //devtool for debugging
-  devtool: 'source-map',
+  devtool: 'source-map',//devtool for debugging
   entry,
   plugins,
-  //load es 6
   module: {
-    loaders: [{
-      test:     /\.js$/,
-      loaders:  ['babel-loader'],
-      exclude:  '/node_modules/'
-    }]
+    loaders:
+    [
+      {//load es 6
+        test:     /\.js$/,
+        loaders:  ['babel-loader'],
+        exclude:  '/node_modules/'
+      },
+        {//load images
+        test:     /\.(png|jpg|gif)$/,
+        loaders:  ['file-loader'],
+        exclude:  '/node_modules/'
+      }
+    ]
   },
   output: {
     path: path.join(__dirname, 'dist'),
