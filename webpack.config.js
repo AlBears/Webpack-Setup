@@ -13,8 +13,17 @@ var entry = PRODUCTION ?
   ];
 
 var plugins = PRODUCTION ?
-  [  ] :
+  [
+    new webpack.optimize.UglifyJsPlugin()
+  ] :
   [ new webpack.HotModuleReplacementPlugin() ];
+
+plugins.push(
+  new webpack.DefinePlugin({
+    DEVELOPMENT: JSON.stringify(DEVELOPMENT),
+    PRODUCTION: JSON.stringify(PRODUCTION)
+  })
+)
 
 module.exports = {
   devtool: 'source-map',//devtool for debugging
@@ -30,6 +39,7 @@ module.exports = {
       },
         {//load images
         test:     /\.(png|jpg|gif)$/,
+        //return data url if file is smaller than 10kb
         loaders:  ['url-loader?limit=10000&name=images/[hash:12].[ext]'],
         exclude:  '/node_modules/'
       }
