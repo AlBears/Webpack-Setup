@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var DEVELOPMENT = process.env.NODE_ENV === 'development';
 var PRODUCTION = process.env.NODE_ENV === 'production';
@@ -14,7 +15,8 @@ var entry = PRODUCTION ?
 
 var plugins = PRODUCTION ?
   [
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin(),
+    new ExtractTextPlugin('styles.css')
   ] :
   [ new webpack.HotModuleReplacementPlugin() ];
 
@@ -25,6 +27,14 @@ plugins.push(
   })
 )
 const cssIdentifier = PRODUCTION ? '[hash:base64:10]' : '[path][name]--[local]';
+
+const cssLoader = PRODUCTION ?
+    ExtractTextPlugin.extract({
+      loader: `css-loader?localIdentName=${cssIdentifier}`
+    }) :
+    ['style-loader', `css-loader?localIdentName=${cssIdentifier}`]
+
+
 module.exports = {
   devtool: 'source-map',//devtool for debugging
   entry,
@@ -45,7 +55,7 @@ module.exports = {
       },
       {//load styles css
         test:     /\.css$/,
-        loaders:  ['style-loader', `css-loader?localIdentName=${cssIdentifier}`],
+        loaders:  cssLoader,
         exclude:  '/node_modules/'
       },
     ]
