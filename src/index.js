@@ -2,11 +2,13 @@ var messages = require('./messages');
 
 import Button from './button';
 import Kitten from './image';
+import imagefile from './imagefile';
 
 var newMessage = () => (`
   <p>
     Hi ${messages.hi} ${messages.event}
     ${Kitten}
+    ${imagefile}
   </p>
   `);
 
