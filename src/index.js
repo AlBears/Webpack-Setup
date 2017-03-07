@@ -1,3 +1,6 @@
+var style = require('./style/globalStyle.css');
+
+
 var messages = require('./messages');
 
 // import Button from './button';
@@ -17,8 +20,10 @@ var messages = require('./messages');
 import { multiply } from './mathstuff';
 
 const newMessage = () => (`
+  <div class = "${style.box}">
     DEV: ${DEVELOPMENT.toString()} <br>
     PROD: ${PRODUCTION.toString()} <br>
+  </div>
   `);
 
 var app = document.getElementById('app');
